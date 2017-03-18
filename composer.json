@@ -1,0 +1,15 @@
+{
+    "name": "bananastandio/php_sdk",
+    "description": "Banana Stand PHP SDK",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jay El-Kaake",
+            "email": "jay@bananastand.io"
+        }
+    ]
+}
