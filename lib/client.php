@@ -1,6 +1,7 @@
 <?php
 
 namespace Banana;
+use Banana\Models\Event;
 
 class Client
 {
@@ -16,6 +17,11 @@ class Client
         $this->publicKey = $publicKey;
         $this->loadVisitorId();
         $this->createHttpClient();
+    }
+
+    public function events($page = 1)
+    {
+        return Event::fetch(self, $page);
     }
 
     public function pushOrderEvent($productId, $visitorId = null, $customerId = null)
@@ -79,7 +85,11 @@ class Client
 
     protected function createHttpClient()
     {
-        $headers = array('X-Public-key' => $this->publicKey, 'Content-Type' => 'application/json');
+        $headers = array(
+            'X-Public-key' => $this->publicKey, 
+            'Content-Type' => 'application/json',
+            'X-Api-Client' => 'Banana Stand PHP SDK'
+        );
         if (!empty($this->secretKey)) {
             $headers['X-Secret-Key'] = $this->secretKey;
         }

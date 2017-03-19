@@ -6,45 +6,53 @@ Install with composer using `composer require bananastandio/php_sdk` or copy the
 project and include all files.
 
 
-## Example Code
+## Usage
+
+#### Setup
 ```php
 require_once('vendor/autoload.php');
 
 use Banana\Client;
 use Banana\Models\Event;
 
-$client = new Client("pk_9481b6521b11f26e3431c3ab477e834997fb262bc3e75b4280aa414e1533e403", "sk_4373db13318d1e380067d5e8ffa9981384ecc800b6ae033a9fa455b2934f7f3a");
-$client->setApiUrl('https://bananastand.ngrok.io/api/v1/');
+$client = new Client("*your public key*", "* your secret key *"); // Replace with your keys
+```
 
-// Fetch events:
-$events = Event::fetch($client);
+#### Fetch events
+```php
+$events = $client->events(); // Get the first page of events (default sorting is most recently updated first)
 foreach ($events as $event) {
     echo $event->id . "|" . $event->visitor_id . "\n";
 }
+```
 
-// Delete Event:
-// $events[0]->delete();
+#### Delete an Event
+```php
+$event->delete();
+```
 
-// Find event
+#### Find event
+```php
 $event = Event::find($client, $events[0]->id);
 echo "Found: " . $event->id . "|" . $event->visitor_id . "\n";
-
-
-// Push Product View Event Asynchronously
-$html = $client->getProductPageHtml($event->product_id);
-echo "Display this HTML for Product ##{$event->product_id} is: \n<!-- BEGIN HTML -->\n{$html}\n<!-- END HTML -->\n";
-
-// Push view event for that product for customer 123
-$client->pushViewEvent($event->product_id, null, 123);
-// Show the new HTML
-$html = $client->getProductPageHtml($event->product_id);
-echo "New HTML display for product ##{$event->id} is: \n<!-- BEGIN HTML -->\n{$html}\n<!-- END HTML -->\n";
-
 ```
+
+#### Get HTML Content for a Product
+```php
+$html = $client->getProductPageHtml($event->product_id);
+```
+
+#### Push view event for that product for customer 123
+```php
+$client->pushViewEvent($event->product_id, null, 123);
+```
+
 
 # Need Help?
 Post issues in this github and a developer will respond. Email the support team if you prefer to contact us that way.
 
+# TODO
+* Add automated tests and hook into travis
 
 # Contributing
 ### How to contribute
